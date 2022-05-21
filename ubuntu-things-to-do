@@ -1,0 +1,380 @@
+#!/bin/bash
+
+##This menu was inspired by the EZArcher Maintenance Script##
+##Thanks to eznix the creator of EZARCH and eznixOS projects##
+##https://sourceforge.net/projects/ezarch/files/##
+##https://sourceforge.net/projects/eznixos/files/##
+
+##AUTO MOUNT DATA DRIVE BEFORE CHANGING PERMISSIONS##
+
+##Main Menu Function##
+menu () { while true
+do
+echo "                 ***********************"
+echo "                 **Ubuntu Things To Do**"
+echo "                 ***********************"
+echo "  ************************************************************"
+echo "  Always Update Before Selecting a Function for the First Time"
+echo "  ************************************************************"
+echo "1: Update Your System"
+echo "****************************************************************"
+echo "                **DVD and Media Support**"
+echo "****************************************************************"
+echo "a: Ubuntu Restricted Extras Install"
+echo "b: VLC Media Player Install (DVD & Media Files Playback Support)" 
+echo "c: MPV Media Player Install (DVD & Media Files Playback Support)"
+echo "****************************************************************"
+echo "                **Appearance & Actions**"
+echo "****************************************************************"
+echo "d: Enable Minimise On Click"
+echo "e: Dconf Editor Install (Manually Set Minimize On Click)"
+echo "f: Gnome Tweaks Install"
+echo "g: Gnome Extensions Manager Install"
+echo "****************************************************************"
+echo "               **Snap Related Software**"
+echo "****************************************************************"
+echo "h: View List of Installed Snaps"
+echo "i: Remove Firefox Snap"
+echo "2: Install Firefox Snap"
+echo "j: Remove Snap Store"
+echo "3: Install Snap Store"
+echo "k: Remove Snapd Completely from Ubuntu (Not Recommended)"
+echo "4: Install Snapd"
+echo "****************************************************************"
+echo "            **Browser Install Selections**"
+echo "****************************************************************"
+echo "l: Firefox Web Browser Install - Binary (From Firefox Website)"
+echo "m: Google Chrome Install (Using wget)"
+echo "n: Brave Browser Install (Using curl)"
+echo "o: Vivaldi Browser Install (Using wget)"
+echo "****************************************************************"
+echo "                **Software Support**"
+echo "****************************************************************"
+echo "p: Flatpak Install (Full Support)"
+echo "5: Remove Flatpak"
+echo "q: Gnome Software Install (For Browsing Flatpak & Snap Software)"
+echo "6: Remove Gnome Software"
+echo "r: MenuLibre Install"
+echo "s: Fix Missing Error"
+echo "****************************************************************"
+echo "x: Exit"
+echo "****************************************************************"
+read -p "Please Enter Your Choice: " number
+echo "----------------------------------------------------------------"
+##case is inspecting the number selected##Number is a variable##
+case $number in
+	1) update;;
+	a) ubuntuextras;;
+	b) vlc;;
+	c) mpv;;
+	d) minclick;;
+	e) dconf;;
+	f) tweaks;;
+	g) extensions;;
+	h) snaplist;;
+	i) remfiresnap;;
+	2) insfiresnap;;
+	j) remsnapstore;;
+	3) inssnapstore;;
+	k) remsnap;;
+	4) snapd;;
+	l) firefox;;
+	m) chromeinstall;;
+	n) brave;;
+	o) vivaldi;;
+	p) flatinstall;;
+	5) uninsflat;;
+	q) gnomesoft;;
+	6) remgnomesoft;;
+	r) menulibre;;
+	s) fixmissing;;
+	x) exit;;
+#
+esac
+done
+}
+#
+##1:Update Your System
+update() {
+sudo apt update && sudo apt upgrade
+echo "          ****************************"
+echo "          Your System Has Been Updated"
+echo "          ****************************"
+sleep 5
+clear
+}
+#
+##a:Ubuntu Restricted Extras Install##
+ubuntuextras() {
+sudo apt install ubuntu-restricted-extras
+sudo apt install libdvd-pkg
+sudo dpkg-reconfigure libdvd-pkg
+echo "          ************************************************************"
+echo "          Ubuntu Restricted Extras Installed (Please Reboot To Enable)"
+echo "          ************************************************************"
+sleep 5
+clear
+}
+#
+##b:VLC Media Player Install for DVD Playback Support and Extra Codecs##
+vlc() {
+sudo apt install vlc
+echo "          **************************"
+echo "          VLC Media Player Installed"
+echo "          **************************"
+sleep 5
+clear
+}
+#
+##c:MPV Media Player Install (Very simple media player) you have to drop the VIDEO_TS folder int MPV for it to play.##
+mpv() {
+sudo apt install mpv
+echo "          **************************"
+echo "          MPV Media Player Installed"
+echo "          **************************"
+sleep 5
+clear
+}
+#
+##d:Minimise On Click Setting##
+minclick() {
+gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'
+echo "          *************************"
+echo "          Minimize On Click Enabled"
+echo "          *************************"
+clear
+}
+#
+##e:Dconf Editor Install *Navigate to* org>gnome>shell>extensions>dash-to-dock>click-action *Toggle Off (Use default value) *Click on box next to Custom value* (Select) 'minimize' *Click Apply*
+dconf() {
+sudo apt install dconf-editor
+echo "          **********************"
+echo "          Dconf Editor Installed"
+echo "          **********************"
+sleep 5
+clear
+}
+#
+##f:Gnome Tweaks Install##
+tweaks() {
+sudo apt install gnome-tweaks
+echo "          **********************"
+echo "          Gnome Tweaks Installed"
+echo "          **********************"
+sleep 5
+clear
+}
+#
+##g:Gnome Extensions Manager Install##
+extensions() {
+sudo apt install gnome-shell-extension-manager
+echo "          *********************************"
+echo "          Gnome Extension Manager Installed"
+echo "          *********************************"
+sleep 5
+clear
+}
+#
+#h:View List of Installed Snaps#
+snaplist() {
+snap list
+sleep 15
+}
+#
+##i:Remove Firefox (Snap)#
+remfiresnap() {
+sudo snap remove firefox
+echo "          ******************************"
+echo "          Firefox (Snap) Version Removed"
+echo "          ******************************"
+sleep 5
+clear
+}
+#
+##2:Install Firefox (Snap)#
+insfiresnap() {
+sudo snap install firefox
+echo "          ********************************"
+echo "          Firefox (Snap) Version Installed"
+echo "          ********************************"
+sleep 5
+clear
+}
+#
+##j:Remove Snap Store#
+remsnapstore() {
+sudo snap remove snap-store
+echo "          *********************************"
+echo "          Snap Store (Snap) Version Removed"
+echo "          *********************************"
+sleep 5
+clear
+}
+#
+##3:Install Snap Store#
+inssnapstore() {
+sudo snap install snap-store
+echo "          ***********************************"
+echo "          Snap Store (Snap) Version Installed"
+echo "          ***********************************"
+sleep 5
+clear
+}
+#
+##k:Remove SnapD from Ubuntu##
+remsnap() {
+sudo systemctl disable snapd.service
+sudo systemctl disable snapd.socket
+sudo systemctl disable snapd.seeded.service
+sudo snap remove firefox
+sudo snap remove snap-store
+sudo snap remove gtk-common-themes
+sudo snap remove gnome-3-38-2004
+sudo snap remove core18
+sudo snap remove snapd-desktop-integration
+sudo rm -rf /var/cache/snapd/
+sudo apt autoremove --purge snapd
+rm -rf ~/snap
+echo "          *****************************************"
+echo "          SnapD Completely Removed from your System"
+echo "          *****************************************"
+sleep 5
+clear
+}
+#
+##4:Install Snapd#
+snapd() {
+sudo apt install snapd
+echo "          ***************"
+echo "          Snapd Installed"
+echo "          ***************"
+sleep 5
+clear
+}
+#
+##l:Firefox Web Browser Install - Binary (From Firefox Website##
+firefox() {
+cd /opt
+sudo apt install wget
+sudo wget -O FirefoxSetup.tar.xz "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US"
+sudo tar -xf FirefoxSetup.tar.xz
+cd -
+chmod 744 firefox-stable.desktop
+sudo cp firefox-stable.desktop /usr/share/applications/firefox-stable.desktop
+sudo ln -sf /opt/firefox/firefox /usr/bin/firefox
+echo "          ********************************************************"
+echo "          Firefox Installed **Run Script Again to Update Firefox**"
+echo "          ********************************************************"
+sleep 5
+clear
+}
+#
+##m:Google Chrome Install (Using wget)##
+chromeinstall() {
+sudo apt install wget
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
+echo "          ***********************"
+echo "          Google Chrome Installed"
+echo "          ***********************"
+sleep 5
+clear
+}
+#
+##n:Brave Browser Install (Using curl)##
+brave() {
+sudo apt install apt-transport-https curl
+
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+sudo apt update
+
+sudo apt install brave-browser
+echo "          ***********************"
+echo "          Brave Browser Installed"
+echo "          ***********************"
+sleep 5
+clear
+}
+#
+##o:Vivaldi Browser Install (Using wget)##
+vivaldi() {
+sudo apt install wget
+wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | gpg --dearmor | sudo dd of=/usr/share/keyrings/vivaldi-browser.gpg
+echo "deb [signed-by=/usr/share/keyrings/vivaldi-browser.gpg arch=$(dpkg --print-architecture)] https://repo.vivaldi.com/archive/deb/ stable main" | sudo dd of=/etc/apt/sources.list.d/vivaldi-archive.list
+sudo apt update && sudo apt install vivaldi-stable
+echo "          *************************"
+echo "          Vivaldi Browser Installed"
+echo "          *************************"
+sleep 5
+clear
+}
+#
+##p:Flatpak Install (Full Support)##
+flatinstall() {
+sudo apt install -f flatpak
+sudo apt install gnome-software-plugin-flatpak
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+echo "          ***************************************************************"
+echo "          Flatpak Support Installed **Please Logout to complete Flatpak**"
+echo "          ***************************************************************"
+sleep 5
+clear
+}
+#
+##5:Remove Flatpak##
+uninsflat() {
+sudo apt remove flatpak
+echo "          *********************"
+echo "          Flatpak UnInstalled**"
+echo "          *********************"
+sleep 5
+clear
+}
+#
+##q:Gnome Software Install (For Browsing Flatpak, Deb Packages & Snap Software)##
+gnomesoft() {
+sudo apt install gnome-software
+echo "          ************************"
+echo "          Gnome Software Installed"
+echo "          ************************"
+sleep 5
+clear
+}
+#
+##6:Remove Gnome Software##
+remgnomesoft() {
+sudo apt remove gnome-software
+echo "          **************************"
+echo "          Gnome Software UnInstalled"
+echo "          **************************"
+sleep 5
+clear
+}
+#
+##r:Install MenuLibre (Add Remove and Hide Software on your Menu##
+menulibre() {
+sudo apt install menulibre
+echo "          *******************"
+echo "          MenuLibre Installed"
+echo "          *******************"
+sleep 5
+clear
+}
+#
+##s: Fix Missing - Runs a command to Fix Broken Packages (with the error: run --fix-missing)##
+##If your package does not install you may need to Force the Install for Example (sudo apt install -f flatpak)
+fixmissing() {
+sudo apt --fix-missing update
+echo "          ******************************************"
+echo "          Update Your System (Select #1 In the Menu)"
+echo "          ******************************************"
+sleep 5
+clear
+}
+#
+##Needed To Run The Main Menu Function##
+menu
